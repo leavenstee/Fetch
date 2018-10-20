@@ -11,48 +11,60 @@ import Foundation
 
 class Fetch {
 
+    static let sharedFetcher = Fetch()
+    
+    
     /*
      PUBLIC METHOD: GET REQUEST
      */
-    func get(urlString: String, params: [String:String]) -> [String : Any] {
-        return self.fetch(type: "GET", urlComponents: self.setupUrl(urlString: urlString, params: params) as NSURLComponents)
+    public func get(urlString: String, params: [String:String]?, completion: @escaping (_ result: Any) -> Void) {
+        self.fetch(type: "GET", urlComponents: self.setupUrl(urlString: urlString, params: params ?? [:]) as NSURLComponents) { (json) in
+            completion(json)
+        }
     }
     /*
      PUBLIC METHOD: POST REQUEST
      */
-    func post(urlString: String, params: [String:String]) -> [String : Any] {
-        return self.fetch(type: "POST", urlComponents: self.setupUrl(urlString: urlString, params: params) as NSURLComponents)
-    }
+//    public func post(urlString: String, params: [String:String], completion: @escaping (_ result: [String : Any]) -> Void) {
+//        self.fetch(type: "POST", urlComponents: self.setupUrl(urlString: urlString, params: params) as NSURLComponents) { (json) in
+//            completion(json)
+//        }
+//    }
     /*
      PUBLIC METHOD: DELETE REQUEST
      */
-    func delete(urlString: String, params: [String:String]) -> [String : Any] {
-        return self.fetch(type: "DELETE", urlComponents: self.setupUrl(urlString: urlString, params: params) as NSURLComponents)
-    }
+//    public func delete(urlString: String, params: [String:String], completion: @escaping (_ result: [String : Any]) -> Void) {
+//        self.fetch(type: "DELETE", urlComponents: self.setupUrl(urlString: urlString, params: params) as NSURLComponents) { (json) in
+//            completion(json)
+//        }
+//    }
     /*
      PUBLIC METHOD: PUT REQUEST
      */
-    func put(urlString: String, params: [String:String]) -> [String : Any] {
-        return self.fetch(type: "PUT", urlComponents: self.setupUrl(urlString: urlString, params: params) as NSURLComponents)
-    }
+//    public func put(urlString: String, params: [String:String], completion: @escaping (_ result: [String : Any]) -> Void) {
+//        self.fetch(type: "PUT", urlComponents: self.setupUrl(urlString: urlString, params: params) as NSURLComponents) { (json) in
+//            completion(json)
+//        }
+//    }
     
     /* PRIVATE METHOD: FETCH
      *  THIS METHOD MAKES REQUEST BASED ON INFO PROVIDED
      *
      */
-    private func fetch(type:String, urlComponents:NSURLComponents) -> [String : Any] {
-        var jsonData = [String : Any]()
+    private func fetch(type:String, urlComponents:NSURLComponents, completion: @escaping (_ result: Any) -> Void) {
         var urlRequest = URLRequest(url: urlComponents.url!)
         urlRequest.httpMethod = type
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         let task = session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
-            let json = try? JSONSerialization.jsonObject(with: data!, options: []) as! [String : Any]
-            jsonData = json!
-            print(jsonData)
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                completion(json)
+            } catch {
+                print("ERRO")
+            }
         })
         task.resume()
-        return jsonData
     }
     
     /* PRIVATE METHOD: SETUP URL
