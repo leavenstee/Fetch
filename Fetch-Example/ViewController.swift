@@ -9,35 +9,25 @@
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-    struct ImageObject: Codable
-    {
-        //String, URL, Bool and Date conform to Codable.
-        var author: String
-        var author_url: URL
-        var filename: String
-        var format : String
-        var height : Int
-        var id : Int
-        var post_url : URL
-        var width: Int
-
-    }
     
-    var data : [ImageObject] = []
-    
-    lazy var collectionView: UICollectionView = {
-        var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .clear
-        return collectionView
-    }()
+    var data : [ImageObject]!
+    var collectionView : UICollectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.data = []
+        
         // Do any additional setup after loading the view, typically from a nib.
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.collectionView.backgroundColor = .clear
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
-        self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        self.collectionView.register(UINib.init(nibName: "ImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
+        if let flowLayout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.itemSize = CGSize(width: self.view.frame.width, height: 400)
+        }
         view.addSubview(self.collectionView)
         
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[collectionView]-0-|", options: [], metrics: nil, views: ["collectionView":collectionView]))
@@ -54,14 +44,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         fetcher.get(urlString: "https://picsum.photos/list", params: nil) { (json) in
             let photoArrayData = json as! [Dictionary<String, Any>]
             for photoData in photoArrayData {
-                self.data.append(ImageObject(author: photoData["author"] as! String,
-                                        author_url: URL(string: photoData["author_url"] as! String)!,
-                                       filename: photoData["filename"] as! String,
-                                       format: photoData["format"] as! String,
-                                       height: photoData["height"] as! Int,
-                                       id: photoData["id"] as! Int,
-                                       post_url: URL(string: photoData["post_url"] as! String)!,
-                                       width:photoData["width"] as! Int))
+                
+                let tempImageObject = ImageObject(author: photoData["author"] as! String,
+                                                  author_url: URL(string: photoData["author_url"] as! String)!,
+                                                  filename: photoData["filename"] as! String,
+                                                  format: photoData["format"] as! String,
+                                                  height: photoData["height"] as! Int,
+                                                  id: photoData["id"] as! Int,
+                                                  post_url: URL(string: photoData["post_url"] as! String)!,
+                                                  width:photoData["width"] as! Int)
+            
+                self.data.append(tempImageObject)
             }
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -78,14 +71,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as UICollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageCollectionViewCell
         
-        cell.backgroundColor = .red
-        
-        print(data[indexPath.row].author)
-        
+        cell.drawCellWithViewModel(data[indexPath.row])
+       
         return cell
     }
+    
+  
 }
 
 

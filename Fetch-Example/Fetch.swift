@@ -61,7 +61,7 @@ class Fetch {
                 let json = try JSONSerialization.jsonObject(with: data!, options: [])
                 completion(json)
             } catch {
-                print("ERRO")
+                print("FETCH ERROR: \(error)")
             }
         })
         task.resume()
