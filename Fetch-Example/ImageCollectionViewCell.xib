@@ -19,19 +19,25 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nrU-Wx-JDl">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="262"/>
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="242"/>
                     </imageView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="bfS-0X-p9V">
-                        <rect key="frame" x="0.0" y="270" width="300" height="50"/>
+                        <rect key="frame" x="0.0" y="250" width="300" height="70"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cZF-IS-NTv">
-                                <rect key="frame" x="0.0" y="0.0" width="300" height="30"/>
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="6QJ-1A-diB"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vt5-18-PX9">
-                                <rect key="frame" x="0.0" y="30" width="300" height="20"/>
+                                <rect key="frame" x="0.0" y="25" width="300" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="w2d-NJ-tv8"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -42,10 +48,9 @@
                             <constraint firstItem="Vt5-18-PX9" firstAttribute="top" secondItem="cZF-IS-NTv" secondAttribute="bottom" id="0ug-hp-cc1"/>
                             <constraint firstItem="cZF-IS-NTv" firstAttribute="leading" secondItem="bfS-0X-p9V" secondAttribute="leading" id="DAb-fc-9OU"/>
                             <constraint firstAttribute="trailing" secondItem="cZF-IS-NTv" secondAttribute="trailing" id="H3j-pW-lzQ"/>
-                            <constraint firstAttribute="bottom" secondItem="Vt5-18-PX9" secondAttribute="bottom" constant="10" id="KBU-6i-rdC"/>
                             <constraint firstAttribute="bottom" secondItem="cZF-IS-NTv" secondAttribute="bottom" constant="20" symbolic="YES" id="Rce-jK-YDC"/>
                             <constraint firstAttribute="trailing" secondItem="Vt5-18-PX9" secondAttribute="trailing" id="WQn-dz-CpG"/>
-                            <constraint firstAttribute="height" constant="50" id="n4O-he-jjb"/>
+                            <constraint firstAttribute="height" constant="70" id="n4O-he-jjb"/>
                             <constraint firstItem="cZF-IS-NTv" firstAttribute="top" secondItem="bfS-0X-p9V" secondAttribute="top" id="nYp-Lc-QoX"/>
                             <constraint firstItem="Vt5-18-PX9" firstAttribute="leading" secondItem="bfS-0X-p9V" secondAttribute="leading" id="u6D-E4-ySd"/>
                             <constraint firstItem="Vt5-18-PX9" firstAttribute="top" secondItem="cZF-IS-NTv" secondAttribute="bottom" id="vfc-pw-kss"/>

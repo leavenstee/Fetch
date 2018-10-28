@@ -13,17 +13,26 @@ class Fetch {
 
     static let sharedFetcher = Fetch()
     
+    // MARK: Public Functions
     
-    /*
-     PUBLIC METHOD: GET REQUEST
+    /**
+     GET Request
+     - parameters:
+     - urlString: String of the url that is used to make the request
+     - params: Dictonary of type [String:String] to pass with the request
+     - completion: Completion block of type Any passed back from result of fetch
      */
     public func get(urlString: String, params: [String:String]?, completion: @escaping (_ result: Any) -> Void) {
         self.fetch(type: "GET", urlComponents: self.setupUrl(urlString: urlString, params: params ?? [:]) as NSURLComponents) { (json) in
             completion(json)
         }
     }
-    /*
-     PUBLIC METHOD: POST REQUEST
+    /**
+     POST Request
+     - parameters:
+     - urlString: String of the url that is used to make the request
+     - params: Dictonary of type [String:String] to pass with the request
+     - completion: Completion block of type Any passed back from result of fetch
      */
 //    public func post(urlString: String, params: [String:String], completion: @escaping (_ result: [String : Any]) -> Void) {
 //        self.fetch(type: "POST", urlComponents: self.setupUrl(urlString: urlString, params: params) as NSURLComponents) { (json) in
@@ -47,7 +56,9 @@ class Fetch {
 //        }
 //    }
     
-    /* PRIVATE METHOD: FETCH
+    // MARK: Private Functions
+    
+    /** PRIVATE METHOD: FETCH
      *  THIS METHOD MAKES REQUEST BASED ON INFO PROVIDED
      *
      */
@@ -62,12 +73,13 @@ class Fetch {
                 completion(json)
             } catch {
                 print("FETCH ERROR: \(error)")
+                completion(error)
             }
         })
         task.resume()
     }
     
-    /* PRIVATE METHOD: SETUP URL
+    /** PRIVATE METHOD: SETUP URL
      *  THIS METHOD FORMATS THE URL WITH PARAMS PASSED IN
      *
      */
